@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>DiagnosisXAi🩺 - Your Smart Diagnosis</title>
+        <meta
+            name="description"
+            content="AI-Powered Health Risk Prediction Web Application"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Amiri:wght@400;700&family=Scheherazade:wght@400;700&family=Noto+Sans+Arabic:wght@400;500;600;700&family=Kufam:wght@400;600&family=Changa:wght@500;700&family=Dancing+Script:wght@400;700&family=Exo+2:ital,wght@1,400;1,600&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+        <style>
+            body {
+                font-family: 'Inter', 'Noto Sans Arabic', sans-serif; 
+                background-color: #f8f8f8; 
+                color: #333; 
+                transition: background-color 0.5s ease, color 0.5s ease; 
+            }
+
+            html.dark body {
+                background-color: #121212; 
+                color: #e0e0e0; 
+            }
+
+            .heading-font {
+                font-family: 'Poppins', 'Changa', sans-serif; 
+            }
+            .arabic-font { 
+                font-family: 'Noto Sans Arabic', 'Amiri', 'Scheherazade', serif;
+            }
+            .dev-font {
+                font-family: 'Dancing Script', cursive;
+            }
+            .logo-font {
+                font-family: 'Exo 2', sans-serif;
+                font-style: italic;
+            }
+            .name-box {
+                width: 190px; 
+                height: 120px; 
+                background-color: #ffffff; 
+                border-radius: 0.75rem; 
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+                padding: 1rem; 
+                text-align: center;
+                border-width: 2px; 
+                border-style: solid; 
+                display: flex;
+                flex-direction: column; 
+                align-items: center;
+                justify-content: center;
+                word-break: break-word; 
+                font-size: 1rem; 
+                font-weight: 600; 
+                overflow: hidden; 
+                color: #1f2937; 
+                transition: all 0.4s ease, transform 0.4s ease; 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+
+            .name-box.visible { 
+                opacity: 1;
+                transform: translateY(0);
+                animation: float 6s ease-in-out infinite; 
+            }
+
+            .name-box:hover {
+                transform: translateY(-8px) scale(1.05); 
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.22);
+            }
+
+
+            html.dark .name-box {
+                background-color: #282828; 
+                color: #e0e0e0; 
+                box-shadow: 0 6px 12px rgba(255, 255, 255, 0.08); 
+            }
+             html.dark .name-box:hover {
+                box-shadow: 0 10px 20px rgba(255, 255, 255, 0.15);
+            }
+
+
+            .name-box h3 {
+                color: #1a1a1a; 
+                transition: color 0.5s ease;
+                font-style: italic; 
+                font-family: 'Dancing Script', cursive; 
+                font-weight: 700; 
+                font-size: 1.35rem; 
+                margin-bottom: 0.3rem; 
+            }
+
+            html.dark .name-box h3 {
+                color: #f0f0f0; 
+            }
+
+            .name-box p {
+                color: #555; 
+                transition: color 0.5s ease;
+                font-size: 0.85rem; 
+            }
+
+            html.dark .name-box p {
+                color: #d1d5db; 
+            }
+
+            .border-blue-500 { border-color: #3b82f6; }
+            .border-green-500 { border-color: #22c55e; }
+            .border-yellow-500 { border-color: #f59e0b; }
+            .border-red-500 { border-color: #ef4444; }
+            .border-purple-500 { border-color: #8b5cf6; } 
+            .border-pink-500 { border-color: #ec4899; }   
+
+
+            .animated-text {
+                background: linear-gradient(90deg, #3b82f6, #22c55e, #f59e0b, #ef4444, #8b5cf6, #ec4899, #3b82f6); 
+                background-size: 300% 100%; 
+                -webkit-background-clip: text; 
+                background-clip: text;
+                -webkit-text-fill-color: transparent; 
+                animation: color-shift 5s linear infinite; 
+                display: inline-block; 
+            }
+
+            @keyframes color-shift {
+                0% { background-position: 0% 50%; }
+                100% { background-position: 100% 50%; }
+            }
+
+            .symptom-label {
+                display: block; 
+                background-color: #ffffff; 
+                border: 1px solid #e0e0e0; 
+                border-radius: 0.75rem; 
+                padding: 1rem; 
+                cursor: pointer;
+                transition: all 0.3s ease; 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
+                color: #4b5563; 
+                font-weight: 500; 
+                text-align: center; 
+                width: 100%; 
+            }
+
+            html.dark .symptom-label {
+                background-color: #282828; 
+                border-color: #444; 
+                color: #e0e0e0; 
+                box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05); 
+            }
+
+            .symptom-label:hover {
+                background-color: #f0f0f0; 
+                box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12); 
+                transform: translateY(-2px); 
+            }
+
+            html.dark .symptom-label:hover {
+                background-color: #333; 
+                box-shadow: 0 6px 14px rgba(255, 255, 255, 0.08); 
+            }
+
+            .hidden-checkbox:checked + .symptom-label {
+                border-color: #3b82f6; 
+                background-color: #e3f2fd; 
+                box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4); 
+                color: #1565c0; 
+                font-weight: 600; 
+            }
+
+            html.dark .hidden-checkbox:checked + .symptom-label {
+                background-color: #1a2b4d; 
+                border-color: #60a5fa; 
+                box-shadow: 0 6px 16px rgba(96, 165, 250, 0.5); 
+                color: #93c5fd; 
+            }
+
+            html.dark .text-gray-800 { color: #e5e7eb; }
+            html.dark .text-gray-900 { color: #f9fafb; }
+            html.dark .bg-gray-100 { background-color: #1f2937; }
+            html.dark .bg-white { background-color: #1f2937; } 
+            html.dark .shadow-md { box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1); }
+            html.dark .text-gray-600 { color: #d1d5db; }
+            html.dark .text-gray-300 { color: #9ca3af; } 
+            html.dark .bg-gray-700 { background-color: #374151; }
+            html.dark .border-gray-300 { border-color: #4b5563; }
+            html.dark .hover\:text-blue-600:hover { color: #60a5fa; } 
+            html.dark .hover\:text-gray-800:hover { color: #f9fafb; } 
+            html.dark .hover\:text-blue-700:hover { color: #93c5fd; } 
+
+            .bg-gray-100 { background-color: #f8f8f8; } 
+            .bg-white { background-color: #ffffff; } 
+            .text-gray-800 { color: #333; } 
+            .text-gray-900 { color: #1a1a1a; } 
+            .text-gray-600 { color: #555; } 
+            .shadow-md { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); } 
+            .rounded-md { border-radius: 0.75rem; } 
+            .rounded-lg { border-radius: 0.75rem; } 
+
+            .section-divider {
+                border: none;
+                height: 2px; 
+                background: linear-gradient(to right, transparent, #d1d5db, transparent); 
+                margin: 4rem auto; 
+                width: 90%; 
+                max-width: 900px; 
+                transition: background-color 0.5s ease; 
+            }
+
+            html.dark .section-divider {
+                background: linear-gradient(to right, transparent, #4b5563, transparent); 
+            }
+
+            #three-d-container {
+                position: relative;
+                width: 100%;
+                height: 400px; 
+                overflow: hidden;
+                display: flex; 
+                justify-content: center; 
+                align-items: center; 
+                background: radial-gradient(circle, #e0e0e0 0%, #f8f8f8 100%); 
+                transition: background 0.5s ease; 
+                border-radius: 0.75rem; 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
+                text-align: center; 
+                padding: 1rem; 
+            }
+
+            html.dark #three-d-container {
+                background: radial-gradient(circle, #1f2937 0%, #121212 100%); 
+                box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05); 
+            }
+
+            #three-d-canvas {
+                display: block; 
+                width: 100%;
+                height: 100%;
+            }
+
+            #visualization-placeholder {
+                font-size: 1.5rem;
+                color: #555; 
+                font-style: italic;
+                transition: color 0.5s ease;
+                position: absolute; 
+                pointer-events: none; 
+            }
+             html.dark #visualization-placeholder {
+                color: #d1d5db; 
+            }
+
+
+            section {
+                padding-top: 6rem; 
+            }
+
+            #home {
+                padding-top: 10rem; 
+            }
+
+            @keyframes float {
+                0% { transform: translatey(0px); }
+                50% { transform: translatey(-12px); } 
+                100% { transform: translatey(0px); }
+            }
+
+            .reset-button {
+                background-color: #ef4444; 
+                color: white;
+                font-weight: 600; 
+                padding-top: 0.75rem; 
+                padding-bottom: 0.75rem; 
+                padding-left: 2rem; 
+                padding-right: 2rem; 
+                border-radius: 9999px; 
+                transition: background-color 0.3s ease, transform 0.2s ease;
+                font-size: 1.125rem; 
+            }
+            .reset-button:hover {
+                background-color: #dc2626; 
+                transform: translateY(-1px); 
+            }
+            html.dark .reset-button {
+                 background-color: #f87171; 
+            }
+            html.dark .reset-button:hover {
+                 background-color: #ef4444; 
+            }
+
+            #scrollToTopBtn {
+                position: fixed;
+                bottom: 30px;
+                right: 30px; 
+                z-index: 99;
+                display: none; 
+                border: none;
+                outline: none;
+                background-color: #3b82f6; 
+                color: white;
+                cursor: pointer;
+                padding: 12px 18px;
+                border-radius: 50%; 
+                font-size: 20px; 
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+            }
+            #scrollToTopBtn:hover {
+                background-color: #2563eb; 
+                transform: scale(1.1);
+            }
+            html.dark #scrollToTopBtn {
+                background-color: #60a5fa; 
+            }
+            html.dark #scrollToTopBtn:hover {
+                background-color: #3b82f6;
+            }
+
+            .modal {
+                display: none; 
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0,0,0,0.6); 
+                backdrop-filter: blur(5px);
+            }
+            .modal-content {
+                background-color: #fefefe;
+                margin: 10% auto; 
+                padding: 25px 35px;
+                border: 1px solid #888;
+                width: 90%;
+                max-width: 500px; 
+                border-radius: 12px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                position: relative;
+                animation: slideInFromTop 0.5s ease-out;
+            }
+            html.dark .modal-content {
+                background-color: #2c2c2c; 
+                border-color: #555;
+            }
+            .close-btn {
+                color: #aaa;
+                position: absolute;
+                top: 15px;
+                right: 25px; 
+                font-size: 32px;
+                font-weight: bold;
+                transition: color 0.3s ease;
+            }
+            .close-btn:hover,
+            .close-btn:focus {
+                color: #333;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            html.dark .close-btn:hover, html.dark .close-btn:focus { color: #ccc; }
+
+            @keyframes slideInFromTop {
+                from {transform: translateY(-50px); opacity: 0;}
+                to {transform: translateY(0); opacity: 1;}
+            }
+            .modal-title {
+                font-family: 'Poppins', 'Changa', sans-serif;
+                font-size: 1.75rem; 
+                font-weight: 600;
+                margin-bottom: 1.5rem;
+                text-align: center;
+                color: #333;
+            }
+            html.dark .modal-title {
+                color: #e0e0e0;
+            }
+            .modal-input {
+                width: 100%;
+                padding: 12px 15px;
+                margin-bottom: 1rem;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                box-sizing: border-box;
+                font-size: 1rem;
+                transition: border-color 0.3s ease;
+            }
+            html.dark .modal-input {
+                background-color: #3a3a3a;
+                border-color: #555;
+                color: #e0e0e0;
+            }
+            .modal-input:focus {
+                border-color: #3b82f6;
+                outline: none;
+                box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+            }
+            .modal-button {
+                background-color: #3b82f6;
+                color: white;
+                padding: 12px 20px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                width: 100%;
+                font-size: 1.1rem;
+                font-weight: 500;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+            }
+            .modal-button:hover {
+                background-color: #2563eb;
+                transform: translateY(-1px);
+            }
+            html.dark .modal-button {
+                background-color: #60a5fa;
+            }
+            html.dark .modal-button:hover {
+                background-color: #3b82f6;
+            }
+            .modal-footer-text {
+                text-align: center;
+                margin-top: 1.5rem;
+                font-size: 0.9rem;
+                color: #555;
+            }
+            html.dark .modal-footer-text {
+                color: #bbb;
+            }
+            .modal-link {
+                color: #3b82f6;
+                font-weight: 500;
+                cursor: pointer;
+                text-decoration: none;
+            }
+            .modal-link:hover {
+                text-decoration: underline;
+            }
+            html.dark .modal-link {
+                color: #60a5fa;
+            }
+            .modal-error-message, .modal-success-message {
+                font-size: 0.875rem;
+                margin-top: -0.5rem;
+                margin-bottom: 1rem;
+                text-align: center;
+                min-height: 1.25em; /* Reserve space to prevent layout shift */
+            }
+            .modal-error-message { color: #ef4444; }
+            html.dark .modal-error-message { color: #f87171; }
+            .modal-success-message { color: #22c55e; } /* Green for success */
+            html.dark .modal-success-message { color: #4ade80; }
+
+
+        </style>
+        
+    </head>
+    <body class="bg-gray-100 text-gray-800">
+        <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-md">
+            <div class="container mx-auto flex justify-between items-center px-4">
+                <a
+                    href="#"
+                    class="flex items-center text-xl font-semibold text-gray-900 logo-font animated-text"
+                >
+                    DiagnosisXAi 🩺
+                </a>
+                <nav class="hidden md:flex items-center space-x-6">
+                    <ul class="flex space-x-6">
+                        <li>
+                            <a
+                                href="#home"
+                                class="hover:text-blue-600 transition duration-300"
+                                >Home</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="#about"
+                                class="hover:text-blue-600 transition duration-300"
+                                >About</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="#symptoms"
+                                class="hover:text-blue-600 transition duration-300"
+                                >Symptoms</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="#contact"
+                                class="hover:text-blue-600 transition duration-300"
+                                >Contact</a
+                            >
+                        </li>
+                    </ul>
+                    <div id="userAuthSectionDesktop" class="flex items-center">
+                        <div id="authButtonsDesktop" class="flex items-center">
+                            <button id="loginBtnDesktop" class="ml-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">Login</button>
+                            <button id="signupBtnDesktop" class="ml-2 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">Sign Up</button>
+                        </div>
+                        <div id="userInfoDesktop" class="hidden items-center">
+                            <span id="userNameDesktop" class="mr-3 text-gray-700 dark:text-gray-300 font-medium"></span>
+                            <button id="logoutBtnDesktop" class="ml-2 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">Logout</button>
+                        </div>
+                    </div>
+                </nav>
+                <div class="flex items-center">
+                     <button
+                        id="theme-toggle"
+                        class="bg-gray-200 rounded-full p-2 text-gray-700 hover:bg-gray-300 transition duration-300 ml-3 md:ml-0"
+                        aria-label="Toggle Theme"
+                    >
+                        <svg
+                            id="theme-toggle-icon"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="h-6 w-6"
+                        >
+                            <path
+                                d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"
+                            ></path>
+                        </svg>
+                    </button>
+                    <div class="md:hidden ml-3">
+                        <button
+                            id="hamburger-btn"
+                            class="text-gray-700 focus:outline-none"
+                            aria-label="Toggle Navigation"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="h-6 w-6"
+                            >
+                                <line x1="3" x2="21" y1="12" y2="12"></line>
+                                <line x1="3" x2="21" y1="6" y2="6"></line>
+                                <line x1="3" x2="21" y1="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div
+                    id="mobile-menu"
+                    class="hidden fixed top-0 left-0 h-full w-80 bg-gray-100 shadow-lg z-40 transform transition-transform duration-300 ease-in-out -translate-x-full"
+                > <div class="flex flex-col h-full">
+                        <div class="px-4 py-6">
+                            <div class="flex justify-start"> <button
+                                    id="close-menu-btn"
+                                    class="text-gray-700 focus:outline-none"
+                                    aria-label="Close Menu"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="h-6 w-6"
+                                    >
+                                        <line
+                                            x1="18"
+                                            x2="6"
+                                            y1="6"
+                                            y2="18"
+                                        ></line>
+                                        <line
+                                            x1="6"
+                                            x2="18"
+                                            y1="6"
+                                            y2="18"
+                                        ></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <nav class="px-4">
+                            <ul class="flex flex-col space-y-4">
+                                <li>
+                                    <a
+                                        href="#home"
+                                        class="block px-4 py-2 text-gray-900 hover:bg-blue-100 rounded-md transition duration-300 mobile-nav-link"
+                                        >Home</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        href="#about"
+                                        class="block px-4 py-2 text-gray-900 hover:bg-blue-100 rounded-md transition duration-300 mobile-nav-link"
+                                        >About</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        href="#symptoms"
+                                        class="block px-4 py-2 text-gray-900 hover:bg-blue-100 rounded-md transition duration-300 mobile-nav-link"
+                                        >Symptoms</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        href="#contact"
+                                        class="block px-4 py-2 text-gray-900 hover:bg-blue-100 rounded-md transition duration-300 mobile-nav-link"
+                                        >Contact</a
+                                    >
+                                </li>
+                                <li id="authButtonsMobileItem1" class="pt-4">
+                                     <button id="loginBtnMobile" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 mobile-nav-link">Login</button>
+                                </li>
+                                <li id="authButtonsMobileItem2">
+                                     <button id="signupBtnMobile" class="w-full mt-2 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 mobile-nav-link">Sign Up</button>
+                                </li>
+                                <li id="userInfoMobileItem" class="hidden pt-4">
+                                    <span id="userNameMobile" class="block px-4 py-2 text-gray-900 dark:text-gray-200 text-center font-medium"></span>
+                                    <button id="logoutBtnMobile" class="w-full mt-2 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 mobile-nav-link">Logout</button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section id="home" class="bg-gray-100 py-16 md:py-24">
+            <div class="container mx-auto text-center px-4">
+                <h1
+                    class="text-4xl md:text-6xl font-bold text-gray-900 mb-4 heading-font"
+                >
+                    Predict Health Risks in Seconds
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-8">
+                    Get fast and accurate disease predictions using AI.
+                </p>
+                <a
+                    href="#symptoms"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-full transition duration-300 text-lg"
+                    >Explore Symptoms</a
+                >
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section id="about" class="bg-white py-16 md:py-24">
+            <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2
+                        class="text-3xl md:text-4xl font-semibold text-gray-900 mb-4 heading-font"
+                    >
+                        About DiagnosisXAi
+                    </h2>
+                    <p class="text-gray-600 text-lg">
+                        DiagnosisXAi is a cutting-edge web application that uses
+                        artificial intelligence to provide fast and reliable health
+                        risk assessments. Our mission is to empower individuals with
+                        the knowledge they need to take control of their health. By
+                        analyzing your symptoms, our AI can offer potential disease
+                        predictions, helping you make informed decisions about your
+                        well-being.
+                    </p>
+                </div>
+                <div class="hidden md:block">
+                    <img
+                        src="static\images\ChatGPT Image May 16, 2025, 05_21_23 PM.png"
+                        onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/31343C?text=Image+Not+Found';"
+                        alt="AI Health Concept Illustration"
+                        class="rounded-lg shadow-lg"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section
+            id="symptoms"
+            class="bg-gray-100 py-16 md:py-24"
+        >
+            <div class="container mx-auto px-4">
+   <h2 class="text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 dark:from-blue-300 dark:via-purple-400 dark:to-pink-400 mb-10 drop-shadow-md animate-pulse">
+     Select Your Galactic Symptoms 
+  </h2>
+<form
+action = "/predict"
+  id="symptoms-form"
+ method="POST"
+  class="max-w-7xl mx-auto bg-white dark:bg-gray-900 bg-opacity-70 dark:bg-opacity-60 backdrop-blur-lg rounded-3xl shadow-2xl p-8 md:p-12 transition-all duration-500"
+>
+
+<div class="bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 border border-gray-200 dark:border-gray-600 rounded-2xl p-5 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+  <label for="gender" class="block mb-2 text-base font-medium text-gray-700 dark:text-gray-200">
+    Gender
+  </label>
+  <select
+    name="gender"
+    id="gender"
+    class="w-full px-4 py-3 bg-white/90 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-400 dark:focus:ring-pink-400 transition-all duration-300"
+  >
+    <option value="M" selected class="text-gray-400 dark:text-gray-300">Male</option>
+    <option value="F">Female</option>
+  </select>
+</div>
+<br>
+
+
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div class="bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 border border-gray-200 dark:border-gray-600 rounded-2xl p-5 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+  <label for="age" class="block mb-2 text-base font-medium text-gray-700 dark:text-gray-200">
+    Age
+  </label>
+  <input
+    type="number"
+    name="age"
+    id="age"
+    min="1"
+    max="109"
+    placeholder="Enter your age"
+    class="w-full px-4 py-3 bg-white/90 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-400 dark:focus:ring-pink-400 transition-all duration-300"
+    required
+  />
+</div>
+
+    {% for default_value in default_values %}
+      {% set value = values[loop.index0] %}
+      {% if value|length != 0 %}
+        <div class="bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 border border-gray-200 dark:border-gray-600 rounded-2xl p-5 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+          <label for="symptom-select-{{ loop.index0 }}" class="block mb-2 text-base font-medium text-gray-700 dark:text-gray-200">
+            {{ df.iloc[loop.index0][1] }}
+          </label>
+          <select
+            name="symptom{{ loop.index0 }}"
+            id="symptom-select-{{ loop.index0 }}"
+            class="w-full px-4 py-3 bg-white/90 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-400 dark:focus:ring-pink-400 transition-all duration-300"
+          >
+            <option value="{{ default_value }}" selected class="text-gray-400 dark:text-gray-300">
+              {{ default_value }}
+            </option>
+            {% for key, answer in value.items() %}
+              <option value="{{ answer.en }}">{{ answer.en }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="text-center mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
+    <button
+      type="submit"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 text-lg w-full sm:w-auto"
+    >
+      Get Prediction
+    </button>
+
+  </div>
+</form>
+{% if predictions %}
+  <div id="results-section" class="bg-white rounded-lg shadow-md p-6 md:p-10 mt-8">
+    <h3 class="text-2xl font-semibold text-gray-900 mb-6 text-center heading-font">
+      Prediction Results
+    </h3>
+
+    <div class="overflow-x-auto mb-8">
+      <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
+        <thead>
+          <tr class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-200">
+            <th class="py-3 px-4 text-left">Disease</th>
+            <th class="py-3 px-4 text-left">Probability</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in predictions %}
+            <tr
+              class="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+            >
+              <td class="py-2 px-4">{{ row["Diseases Excepected"] }}</td>
+              <td class="py-2 px-4">{{ (row["Probability"] * 100) | round(2) }}%</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div
+        id="bar-chart"
+        class="bg-white rounded-xxlg p-4 shadow-md h-80"
+      ></div>
+      <div
+        id="pie-chart"
+        class="bg-white rounded-xxlg p-4 shadow-md h-80"
+      ></div>
+    </div>
+  </div>
+
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const barFig = {{ graph1_json | safe }};
+      const pieFig = {{ graph2_json | safe }};
+
+      Plotly.newPlot("bar-chart", barFig.data, barFig.layout, {
+        responsive: true,
+      });
+      Plotly.newPlot("pie-chart", pieFig.data, pieFig.layout, {
+        responsive: true,
+      });
+    });
+  </script>
+{% endif %}
+
+
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section id="contact" class="bg-white py-16 md:py-24">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-semibold text-gray-900 mb-8 text-center heading-font">
+                    Contact Us
+                </h2>
+                <div class="max-w-2xl mx-auto bg-gray-100 p-8 rounded-lg shadow-md">
+                    <p class="text-gray-700 text-lg mb-6 text-center">
+                        Have questions or feedback? We'd love to hear from you.
+                    </p>
+                    <form id="contact-form">
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-800 font-medium mb-2">Name</label>
+                            <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-300" required />
+                        </div>
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-800 font-medium mb-2">Email</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-300" required />
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-800 font-medium mb-2">Message</label>
+                            <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-300" required></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-black font-semibold py-3 px-8 rounded-full transition duration-300 text-lg">
+                                Send Message
+                            </button>
+                        </div>
+                    </form>
+                    <div id="contact-form-message" class="mt-6 text-center"></div>
+                </div>
+
+                <div id="team-section" class="mt-16 md:mt-24">
+                    <h3 class="text-2xl md:text-3xl font-semibold text-gray-900 mb-10 text-center heading-font">
+                        Meet the Team
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
+                        <div class="name-box border-blue-500">
+                            <h3 class="text-xl dev-font">Osama Hamada</h3>
+                            <p class="text-sm text-gray-500">AI Specialist</p>
+                        </div>
+                        <div class="name-box border-green-500">
+                            <h3 class="text-xl dev-font">Mohamed Hosam</h3>
+                            <p class="text-sm text-gray-500">AI Specialist</p>
+                        </div>
+                        <div class="name-box border-yellow-500">
+                            <h3 class="text-xl dev-font">Abdullah Atef</h3>
+                            <p class="text-sm text-gray-500">AI Specialist</p>
+                        </div>
+                        <div class="name-box border-red-500">
+                            <h3 class="text-xl dev-font">Mohamed Shahin</h3>
+                            <p class="text-sm text-gray-500">AI Specialist</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-gray-800 text-gray-300 py-12 rounded-t-lg">
+            <div class="container mx-auto text-center px-4">
+                <p class="mb-2 logo-font text-lg">DiagnosisXAi 🩺</p>
+                <p class="text-sm">
+                    &copy; <span id="current-year"></span> DiagnosisXAi. All rights reserved.
+                </p>
+                <p class="text-xs mt-2">
+                    Disclaimer: This tool is for informational purposes only and not a substitute for professional medical advice.
+                </p>
+                <div class="mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white mx-2"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white mx-2"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white mx-2"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </footer>
+
+        <button id="scrollToTopBtn" title="Go to top">
+            <i class="fas fa-arrow-up"></i> </button>
+
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" id="closeLoginModal">&times;</span>
+                <h2 class="modal-title">Login</h2>
+                <form id="loginForm">
+                    <div id="loginError" class="modal-error-message"></div>
+                    <div id="loginSuccess" class="modal-success-message"></div>
+                    <input type="email" id="loginEmail" placeholder="Email Address" class="modal-input" required>
+                    <input type="password" id="loginPassword" placeholder="Password" class="modal-input" required>
+                    <button type="submit" class="modal-button">Login</button>
+                </form>
+                <p class="modal-footer-text">Don't have an account? <a href="#" id="switchToSignup" class="modal-link">Sign Up</a></p>
+            </div>
+        </div>
+
+        <div id="signupModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" id="closeSignupModal">&times;</span>
+                <h2 class="modal-title">Create New Account</h2>
+                <form id="signupForm">
+                     <div id="signupError" class="modal-error-message"></div>
+                     <div id="signupSuccess" class="modal-success-message"></div>
+                    <input type="text" id="signupName" placeholder="Full Name" class="modal-input" required>
+                    <input type="email" id="signupEmail" placeholder="Email Address" class="modal-input" required>
+                    <input type="password" id="signupPassword" placeholder="Password" class="modal-input" required>
+                    <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" class="modal-input" required>
+                    <button type="submit" class="modal-button">Create Account</button>
+                </form>
+                <p class="modal-footer-text">Already have an account? <a href="#" id="switchToLogin" class="modal-link">Login</a></p>
+            </div>
+        </div>
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+
+                // --- Theme Toggle ---
+                const themeToggleBtn = document.getElementById('theme-toggle');
+                const themeToggleIcon = document.getElementById('theme-toggle-icon');
+                const sunIconPath = "M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12z";
+                const moonIconPath = "M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z";
+
+                function applyTheme(theme) {
+                    if (theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                        themeToggleIcon.innerHTML = `<path d="${sunIconPath}"></path>`;
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        themeToggleIcon.innerHTML = `<path d="${moonIconPath}"></path>`;
+                    }
+                    updateThreeDContainerBackground(theme);
+                }
+                
+                function updateThreeDContainerBackground(theme) {
+                    const threeDContainer = document.getElementById('three-d-container');
+                    if (threeDContainer) {
+                         if (document.getElementById('symptoms-form').querySelector('input[name="symptoms"]:checked')) { 
+                            // Background is handled by prediction logic if symptoms are checked
+                        } else {
+                             threeDContainer.style.background = theme === 'dark' ? 
+                                'radial-gradient(circle, #1f2937 0%, #121212 100%)' : 
+                                'radial-gradient(circle, #e0e0e0 0%, #f8f8f8 100%)';
+                        }
+                    }
+                }
+
+
+                const initialTheme = "dark";
+                applyTheme(initialTheme);
+   
+
+                // --- Mobile Menu ---
+                const hamburgerBtn = document.getElementById('hamburger-btn');
+                const mobileMenu = document.getElementById('mobile-menu');
+                const closeMenuBtn = document.getElementById('close-menu-btn');
+                const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+                hamburgerBtn.addEventListener('click', () => {
+                    mobileMenu.classList.remove('hidden');
+                    setTimeout(() => { mobileMenu.classList.remove('-translate-x-full'); }, 10); 
+                });
+
+                function closeMobileMenu() {
+                    mobileMenu.classList.add('-translate-x-full');
+                    setTimeout(() => { mobileMenu.classList.add('hidden'); }, 300); 
+                }
+
+                closeMenuBtn.addEventListener('click', closeMobileMenu);
+                mobileNavLinks.forEach(link => {
+                    // Check if the link is an anchor or a button that should close the menu
+                    if ((link.tagName === 'A' && link.getAttribute('href') && link.getAttribute('href').startsWith('#')) || 
+                        link.id === 'loginBtnMobile' || link.id === 'signupBtnMobile' || link.id === 'logoutBtnMobile') {
+                        link.addEventListener('click', closeMobileMenu);
+                    }
+                });
+
+
+                // --- Smooth Scrolling ---
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        if (!this.getAttribute('href').startsWith('#')) return;
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+                        // No need to check for mobileMenu here if links already close it
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            const header = document.querySelector('header');
+                            const headerHeight = header ? header.offsetHeight : 0;
+                            const elementPosition = targetElement.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+                            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                        }
+                    });
+                });
+
+                // --- Set Current Year ---
+                document.getElementById('current-year').textContent = new Date().getFullYear();
+
+                // --- Symptoms Form Handling (existing code, kept for integrity) ---
+// --- Symptoms Form Handling (existing code, kept for integrity) ---
+
+
+                // --- Contact Form (existing code, kept for integrity) ---
+                const contactForm = document.getElementById('contact-form');
+                const contactFormMessage = document.getElementById('contact-form-message');
+
+                if (contactForm) {
+                contactForm.addEventListener('submit', async function(event) {
+                    event.preventDefault();
+
+                    const name    = document.getElementById('name').value.trim();
+                    const email   = document.getElementById('email').value.trim();
+                    const message = document.getElementById('message').value.trim();
+
+                    if (!name || !email || !message) {
+                    contactFormMessage.innerHTML = '<p class="text-red-500 font-semibold">Please fill out all fields.</p>';
+                    return;
+                    }
+                    if (!/^\S+@\S+\.\S+$/.test(email)) {
+                    contactFormMessage.innerHTML = '<p class="text-red-500 font-semibold">Please enter a valid email address.</p>';
+                    return;
+                    }
+
+                    try {
+                    const response = await fetch('/log', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, email, message })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        contactFormMessage.innerHTML = `<p class="text-green-600 dark:text-green-400 font-semibold">Thank you, ${name}! Your message has been sent successfully. ✅</p>`;
+                        contactForm.reset();
+                    } else {
+                        contactFormMessage.innerHTML = `<p class="text-red-500 font-semibold">Error: ${result.error || 'Unknown error'}</p>`;
+                    }
+                    } catch (err) {
+                    contactFormMessage.innerHTML = '<p class="text-red-500 font-semibold">Network error, please try again later.</p>';
+                    console.error(err);
+                    }
+
+                    setTimeout(() => { contactFormMessage.innerHTML = ''; }, 5000);
+                });
+                }
+
+                // --- Scroll-to-Top Button ---
+                const scrollToTopButton = document.getElementById('scrollToTopBtn');
+                window.onscroll = function() {
+                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                        scrollToTopButton.style.display = "block";
+                        setTimeout(() => scrollToTopButton.style.opacity = "1", 10); 
+                    } else {
+                        scrollToTopButton.style.opacity = "0";
+                        setTimeout(() => scrollToTopButton.style.display = "none", 300); 
+                    }
+                };
+                scrollToTopButton.addEventListener('click', () => {
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                });
+
+                // --- "Meet the Team" Animation ---
+                const nameBoxes = document.querySelectorAll('.name-box');
+                const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+                const observer = new IntersectionObserver((entries, obs) => { // Renamed 'observer' to 'obs' to avoid conflict
+                    entries.forEach((entry, index) => {
+                        if (entry.isIntersecting) {
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, index * 150); 
+                            // obs.unobserve(entry.target); // Optional: unobserve after animation
+                        } 
+                    });
+                }, observerOptions);
+                nameBoxes.forEach(box => { observer.observe(box); });
+
+
+                // --- Modal Handling & Authentication ---
+                const loginModal = document.getElementById('loginModal');
+                const signupModal = document.getElementById('signupModal');
+                const closeLoginModalBtn = document.getElementById('closeLoginModal');
+                const closeSignupModalBtn = document.getElementById('closeSignupModal');
+                const switchToSignupLink = document.getElementById('switchToSignup');
+                const switchToLoginLink = document.getElementById('switchToLogin');
+
+                const loginErrorDiv = document.getElementById('loginError');
+                const loginSuccessDiv = document.getElementById('loginSuccess');
+                const signupErrorDiv = document.getElementById('signupError');
+                const signupSuccessDiv = document.getElementById('signupSuccess');
+
+                const loginBtnsDesktop = document.getElementById('loginBtnDesktop');
+                const loginBtnsMobile = document.getElementById('loginBtnMobile');
+                const signupBtnsDesktop = document.getElementById('signupBtnDesktop');
+                const signupBtnsMobile = document.getElementById('signupBtnMobile');
+
+
+                function openModal(modal) {
+                    if (modal) {
+                        // Clear previous messages
+                        if (loginErrorDiv) loginErrorDiv.textContent = '';
+                        if (loginSuccessDiv) loginSuccessDiv.textContent = '';
+                        if (signupErrorDiv) signupErrorDiv.textContent = '';
+                        if (signupSuccessDiv) signupSuccessDiv.textContent = '';
+                        
+                        modal.style.display = 'block';
+                        const firstInput = modal.querySelector('input[type="text"], input[type="email"], input[type="password"]');
+                        if (firstInput) firstInput.focus();
+                    }
+                }
+                function closeModal(modal) {
+                    if (modal) modal.style.display = 'none';
+                }
+
+                if(loginBtnsDesktop) loginBtnsDesktop.addEventListener('click', () => openModal(loginModal));
+                if(loginBtnsMobile) loginBtnsMobile.addEventListener('click', () => openModal(loginModal));
+                if(signupBtnsDesktop) signupBtnsDesktop.addEventListener('click', () => openModal(signupModal));
+                if(signupBtnsMobile) signupBtnsMobile.addEventListener('click', () => openModal(signupModal));
+                
+                if(closeLoginModalBtn) closeLoginModalBtn.addEventListener('click', () => closeModal(loginModal));
+                if(closeSignupModalBtn) closeSignupModalBtn.addEventListener('click', () => closeModal(signupModal));
+
+                if(switchToSignupLink) switchToSignupLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    closeModal(loginModal);
+                    openModal(signupModal);
+                });
+                if(switchToLoginLink) switchToLoginLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    closeModal(signupModal);
+                    openModal(loginModal);
+                });
+
+                window.addEventListener('click', (event) => {
+                    if (event.target == loginModal) closeModal(loginModal);
+                    if (event.target == signupModal) closeModal(signupModal);
+                });
+                
+                // --- Authentication Logic ---
+                const loginForm = document.getElementById('loginForm');
+                const signupForm = document.getElementById('signupForm');
+
+                function updateHeaderUI() {
+                    const currentUserJSON = localStorage.getItem('currentUser');
+                    
+                    const authButtonsDesktop = document.getElementById('authButtonsDesktop');
+                    const userInfoDesktop = document.getElementById('userInfoDesktop');
+                    const userNameDesktop = document.getElementById('userNameDesktop');
+                    const logoutBtnDesktop = document.getElementById('logoutBtnDesktop');
+
+                    const authButtonsMobileItem1 = document.getElementById('authButtonsMobileItem1');
+                    const authButtonsMobileItem2 = document.getElementById('authButtonsMobileItem2');
+                    const userInfoMobileItem = document.getElementById('userInfoMobileItem');
+                    const userNameMobile = document.getElementById('userNameMobile');
+                    const logoutBtnMobile = document.getElementById('logoutBtnMobile');
+
+                    if (currentUserJSON) {
+                        const currentUser = JSON.parse(currentUserJSON);
+                        // Desktop
+                        if(authButtonsDesktop) authButtonsDesktop.classList.add('hidden');
+                        if(userInfoDesktop) {
+                            userInfoDesktop.classList.remove('hidden');
+                            userInfoDesktop.classList.add('flex'); // Ensure flex for proper alignment
+                        }
+                        if(userNameDesktop) userNameDesktop.textContent = `Welcome, ${currentUser.name}`;
+                        
+                        // Mobile
+                        if(authButtonsMobileItem1) authButtonsMobileItem1.classList.add('hidden');
+                        if(authButtonsMobileItem2) authButtonsMobileItem2.classList.add('hidden');
+                        if(userInfoMobileItem) userInfoMobileItem.classList.remove('hidden');
+                        if(userNameMobile) userNameMobile.textContent = `Welcome, ${currentUser.name}`;
+
+                        // Add event listeners for logout buttons if they don't have them or are re-created
+                        if(logoutBtnDesktop && !logoutBtnDesktop.hasAttribute('data-listener-attached')) {
+                            logoutBtnDesktop.addEventListener('click', handleLogout);
+                            logoutBtnDesktop.setAttribute('data-listener-attached', 'true');
+                        }
+                        if(logoutBtnMobile && !logoutBtnMobile.hasAttribute('data-listener-attached')) {
+                            logoutBtnMobile.addEventListener('click', handleLogout);
+                            logoutBtnMobile.setAttribute('data-listener-attached', 'true');
+                        }
+                    } else {
+                        // Desktop
+                        if(authButtonsDesktop) authButtonsDesktop.classList.remove('hidden');
+                        if(userInfoDesktop) {
+                            userInfoDesktop.classList.add('hidden');
+                            userInfoDesktop.classList.remove('flex');
+                        }
+                        if(userNameDesktop) userNameDesktop.textContent = '';
+
+
+                        // Mobile
+                        if(authButtonsMobileItem1) authButtonsMobileItem1.classList.remove('hidden');
+                        if(authButtonsMobileItem2) authButtonsMobileItem2.classList.remove('hidden');
+                        if(userInfoMobileItem) userInfoMobileItem.classList.add('hidden');
+                        if(userNameMobile) userNameMobile.textContent = '';
+                    }
+                }
+
+                function handleLogout() {
+                    localStorage.removeItem('currentUser');
+                    updateHeaderUI();
+                    // Optionally, show a logged out message or redirect
+                }
+
+                if(signupForm) signupForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if(signupErrorDiv) signupErrorDiv.textContent = ''; 
+                    if(signupSuccessDiv) signupSuccessDiv.textContent = '';
+
+                    const signupNameInput = document.getElementById('signupName');
+                    const signupEmailInput = document.getElementById('signupEmail');
+                    const signupPasswordInput = document.getElementById('signupPassword');
+                    const signupConfirmPasswordInput = document.getElementById('signupConfirmPassword');
+
+                    const name = signupNameInput.value.trim();
+                    const email = signupEmailInput.value.trim();
+                    const password = signupPasswordInput.value;
+                    const confirmPassword = signupConfirmPasswordInput.value;
+
+                    if (!name || !email || !password || !confirmPassword) {
+                        if(signupErrorDiv) signupErrorDiv.textContent = 'Please fill all fields.';
+                        return;
+                    }
+                    if (password !== confirmPassword) {
+                        if(signupErrorDiv) signupErrorDiv.textContent = 'Passwords do not match.';
+                        return;
+                    }
+                    if (!/^\S+@\S+\.\S+$/.test(email)) {
+                        if(signupErrorDiv) signupErrorDiv.textContent = 'Please enter a valid email.';
+                        return;
+                    }
+
+                    let users = JSON.parse(localStorage.getItem('users')) || [];
+                    if (users.find(user => user.email === email)) {
+                        if(signupErrorDiv) signupErrorDiv.textContent = 'Email already registered.';
+                        return;
+                    }
+
+                    users.push({ name, email, password }); // Storing password directly for demo purposes
+                    localStorage.setItem('users', JSON.stringify(users));
+                    
+                    if(signupSuccessDiv) signupSuccessDiv.textContent = 'Account created! Redirecting to login...';
+                    signupForm.reset();
+
+                    setTimeout(() => {
+                        closeModal(signupModal);
+                        openModal(loginModal);
+                        const loginEmailInput = document.getElementById('loginEmail');
+                        if(loginEmailInput) loginEmailInput.value = email; // Pre-fill email
+                    }, 2000); // Wait 2 seconds before redirecting
+                });
+
+                if(loginForm) loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if(loginErrorDiv) loginErrorDiv.textContent = ''; 
+                    if(loginSuccessDiv) loginSuccessDiv.textContent = '';
+
+                    const loginEmailInput = document.getElementById('loginEmail');
+                    const loginPasswordInput = document.getElementById('loginPassword');
+                    const email = loginEmailInput.value.trim();
+                    const password = loginPasswordInput.value;
+
+                    if (!email || !password) {
+                        if(loginErrorDiv) loginErrorDiv.textContent = 'Please fill all fields.';
+                        return;
+                    }
+
+                    let users = JSON.parse(localStorage.getItem('users')) || [];
+                    const user = users.find(u => u.email === email && u.password === password);
+
+                    if (user) {
+                        localStorage.setItem('currentUser', JSON.stringify({ name: user.name, email: user.email }));
+                        if(loginSuccessDiv) loginSuccessDiv.textContent = 'Login successful! Welcome.';
+                        loginForm.reset();
+                        setTimeout(() => {
+                            closeModal(loginModal);
+                            updateHeaderUI();
+                        }, 1500);
+                    } else {
+                         if(loginErrorDiv) loginErrorDiv.textContent = 'Invalid email or password.';
+                    }
+                });
+
+                // Initial UI update on page load
+                updateHeaderUI();
+
+
+                // --- Three.js Basic Visualization (existing code, kept for integrity) ---
+                let scene, camera, renderer, cube;
+                const canvas = document.getElementById('three-d-canvas');
+                const container = document.getElementById('three-d-container');
+
+                function initThreeJS() {
+                    if (!container || !canvas) return; 
+
+                    if (!scene) { 
+                        scene = new THREE.Scene();
+                        camera = new THREE.PerspectiveCamera(75, container.clientWidth / Math.max(1, container.clientHeight), 0.1, 1000); // Avoid division by zero
+                        camera.position.z = 5;
+                        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+                        renderer.setSize(container.clientWidth, container.clientHeight);
+                        renderer.setPixelRatio(window.devicePixelRatio);
+                        renderer.setClearColor(0x000000, 0); 
+                        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+                        scene.add(ambientLight);
+                        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                        directionalLight.position.set(5, 10, 7.5);
+                        scene.add(directionalLight);
+                    }
+
+                    if (cube) {
+                        scene.remove(cube);
+                        cube.geometry.dispose();
+                        cube.material.dispose();
+                    }
+
+                    const geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5); 
+                    const material = new THREE.MeshStandardMaterial({ 
+                        vertexColors: true, 
+                        roughness: 0.5,
+                        metalness: 0.3
+                    });
+
+                    const colors = [];
+                    const color1 = new THREE.Color(0x3b82f6); 
+                    const color2 = new THREE.Color(0xef4444); 
+                    const color3 = new THREE.Color(0x22c55e); 
+
+                    // Correctly apply vertex colors for BoxGeometry (6 faces, 2 triangles per face, 3 vertices per triangle)
+                    const faceColors = [color1, color2, color3, color1.clone().lerp(color2, 0.5), color2.clone().lerp(color3, 0.5), color3.clone().lerp(color1, 0.5)];
+                    for (let i = 0; i < geometry.groups.length; i++) { // BoxGeometry has 6 groups (faces)
+                        const group = geometry.groups[i];
+                        const faceColor = faceColors[i % faceColors.length];
+                        for (let j = group.start; j < group.start + group.count; j++) {
+                             // This approach is complex for vertex colors. Simpler is to use face materials or a texture.
+                             // For vertex colors, each vertex of a face needs the color.
+                             // A BoxGeometry has shared vertices by default. For distinct face colors, you'd need a non-indexed geometry or careful color attribute setup.
+                             // The previous method of iterating count/3 was for a different geometry structure.
+                             // Sticking to a simpler color application for demo:
+                        }
+                    }
+                     // Simplified: Apply colors to each vertex. This will result in blended colors across faces if vertices are shared.
+                    const positionAttribute = geometry.attributes.position;
+                    for (let i = 0; i < positionAttribute.count; i++) {
+                        const color = (i % 3 === 0) ? color1 : (i % 3 === 1 ? color2 : color3);
+                        colors.push(color.r, color.g, color.b);
+                    }
+
+                    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+
+                    cube = new THREE.Mesh(geometry, material);
+                    scene.add(cube);
+
+                    let animationFrameId; // To control animation loop
+                    function animate() {
+                        if (!cube || !renderer || !scene || !camera) return; 
+                        animationFrameId = requestAnimationFrame(animate);
+                        cube.rotation.x += 0.005;
+                        cube.rotation.y += 0.008;
+                        renderer.render(scene, camera);
+                    }
+                    
+                    // Stop previous animation if any before starting a new one
+                    if (animationFrameId) {
+                        cancelAnimationFrame(animationFrameId);
+                    }
+                    animate(); 
+                }
+                
+                window.addEventListener('resize', () => {
+                    if (camera && renderer && container) {
+                        if (container.clientWidth > 0 && container.clientHeight > 0) {
+                            camera.aspect = container.clientWidth / container.clientHeight;
+                            camera.updateProjectionMatrix();
+                            renderer.setSize(container.clientWidth, container.clientHeight);
+                        }
+                    }
+                });
+                updateThreeDContainerBackground(initialTheme); // Initial call for 3D container background
+            }); 
+        </script>
+    </body>
+</html>
