@@ -2,6 +2,6 @@ Flask==2.3.2
 pandas==2.2.2
 numpy==1.26.4
 plotly==5.21.0
-tensorflow==2.15.0
+tensorflow==2.17.1
 joblib==1.4.0
 gunicorn==21.2.0
