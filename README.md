@@ -12,3 +12,4 @@ Make sure your environment has the following Python packages installed:
 - re (built-in)
 - os (built-in)
 - json (built-in)
+- sklearn
