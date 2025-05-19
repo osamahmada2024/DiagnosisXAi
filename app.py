@@ -4,41 +4,41 @@ import re, os
 import pandas as pd
 import json
 import pickle
-from sklearn.preprocessing import LabelEncoder
 import numpy as np
-import matplotlib.pyplot as plt
 import plotly
 import plotly.express as px
 import tensorflow as tf
+from joblib import load
 
 app = Flask(__name__)
 
 
 with open("release_evidences.json",'r') as e:
     Evidence= json.load(e)
-
-# default_values = []
 eng_questions = []
-# values = []
-
 df = pd.read_csv("cols (1).csv")
+model = tf.keras.models.load_model("model_72%_Final_test_accuracy.h5")
+Target = pd.read_csv("Data_Target.csv")["y"]
+encoder  = pickle.load(open("encoders.pkl", "rb"))
+scaler = load(open("scaler_Final.pkl", "rb"))
+# encoder = load("encoders.joblib")       
+# scaler  = load("scaler_Final.joblib")
+messages = pd.read_csv("messages.csv")
 
-messages = pd.read_csv("messages")
+
 
 @app.route('/leaders')
 def index_leader():
     return render_template('TeamPage.html',df = df,messages = messages)
 
-model = tf.keras.models.load_model("model_72%_Final_test_accuracy.h5")
-
-Target = pd.read_csv("Data_Target.csv")["y"]
 
 def Predict(X_new):
 
+    X_new = scaler.transform(X_new)
     y_pred = model.predict(X_new).flatten()
+    print(y_pred)
     top5_idx = np.argsort(y_pred)[-7:][::-1]
     y_pred = y_pred[top5_idx]
-    y_pred
     y_pred = pd.DataFrame({
         'Diseases Excepected' : Target[top5_idx],
         'Probability' : y_pred
@@ -121,7 +121,6 @@ for i in range(df.shape[0]):
 def index():
     return render_template('index.html',df = df,default_values = default_values, values = values,result = "")
 
-encoder  = pickle.load(open("encoders.pkl", "rb"))
 def encoding(col, value):
     if pd.isna(value):
         return np.array([encoder[col].transform(['unknown'])[0]])
