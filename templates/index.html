@@ -26,15 +26,39 @@
 
         <style>
             body {
-                font-family: 'Inter', 'Noto Sans Arabic', sans-serif; 
-                background-color: #f8f8f8; 
-                color: #333; 
-                transition: background-color 0.5s ease, color 0.5s ease; 
+                font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
+                background-color: #f5f5f7;
+                color: #1d1d1f;
+                transition: background-color 0.5s ease, color 0.5s ease;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
             }
 
             html.dark body {
-                background-color: #121212; 
-                color: #e0e0e0; 
+                background-color: #000000;
+                color: #f5f5f7;
+            }
+
+            ::selection {
+                background-color: rgba(0, 122, 255, 0.2);
+            }
+            html.dark ::selection {
+                background-color: rgba(10, 132, 255, 0.3);
+            }
+
+            /* ===== Apple-style Header ===== */
+            header {
+                background: rgba(255, 255, 255, 0.72) !important;
+                backdrop-filter: blur(20px) saturate(180%) !important;
+                -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+                box-shadow: none !important;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+                border-radius: 0 !important;
+            }
+            html.dark header {
+                background: rgba(28, 28, 30, 0.82) !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+                box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) !important;
             }
 
             .heading-font {
@@ -51,73 +75,73 @@
                 font-style: italic;
             }
             .name-box {
-                width: 190px; 
-                height: 120px; 
-                background-color: #ffffff; 
-                border-radius: 0.75rem; 
-                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
-                padding: 1rem; 
+                width: 190px;
+                height: 120px;
+                background-color: #ffffff;
+                border-radius: 14px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+                padding: 1rem;
                 text-align: center;
-                border-width: 2px; 
-                border-style: solid; 
+                border-width: 2px;
+                border-style: solid;
                 display: flex;
-                flex-direction: column; 
+                flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                word-break: break-word; 
-                font-size: 1rem; 
-                font-weight: 600; 
-                overflow: hidden; 
-                color: #1f2937; 
-                transition: all 0.4s ease, transform 0.4s ease; 
-                opacity: 0; 
-                transform: translateY(30px); 
+                word-break: break-word;
+                font-size: 1rem;
+                font-weight: 600;
+                overflow: hidden;
+                color: #1d1d1f;
+                transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+                opacity: 0;
+                transform: translateY(30px);
             }
 
-            .name-box.visible { 
+            .name-box.visible {
                 opacity: 1;
                 transform: translateY(0);
-                animation: float 6s ease-in-out infinite; 
+                animation: float 6s ease-in-out infinite;
             }
 
             .name-box:hover {
-                transform: translateY(-8px) scale(1.05); 
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.22);
+                transform: translateY(-10px) scale(1.04);
+                box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+                border-color: rgba(0, 122, 255, 0.3);
             }
-
 
             html.dark .name-box {
-                background-color: #282828; 
-                color: #e0e0e0; 
-                box-shadow: 0 6px 12px rgba(255, 255, 255, 0.08); 
+                background-color: #1c1c1e;
+                color: #f5f5f7;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
             }
-             html.dark .name-box:hover {
-                box-shadow: 0 10px 20px rgba(255, 255, 255, 0.15);
+            html.dark .name-box:hover {
+                box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+                border-color: rgba(10, 132, 255, 0.3);
             }
-
 
             .name-box h3 {
-                color: #1a1a1a; 
+                color: #1d1d1f;
                 transition: color 0.5s ease;
-                font-style: italic; 
-                font-family: 'Dancing Script', cursive; 
-                font-weight: 700; 
-                font-size: 1.35rem; 
-                margin-bottom: 0.3rem; 
+                font-style: italic;
+                font-family: 'Dancing Script', cursive;
+                font-weight: 700;
+                font-size: 1.35rem;
+                margin-bottom: 0.3rem;
             }
 
             html.dark .name-box h3 {
-                color: #f0f0f0; 
+                color: #f5f5f7;
             }
 
             .name-box p {
-                color: #555; 
+                color: #6e6e73;
                 transition: color 0.5s ease;
-                font-size: 0.85rem; 
+                font-size: 0.85rem;
             }
 
             html.dark .name-box p {
-                color: #d1d5db; 
+                color: #98989d;
             }
 
             .border-blue-500 { border-color: #3b82f6; }
@@ -144,108 +168,110 @@
             }
 
             .symptom-label {
-                display: block; 
-                background-color: #ffffff; 
-                border: 1px solid #e0e0e0; 
-                border-radius: 0.75rem; 
-                padding: 1rem; 
+                display: block;
+                background-color: #ffffff;
+                border: 1.5px solid #e5e5ea;
+                border-radius: 12px;
+                padding: 1rem;
                 cursor: pointer;
-                transition: all 0.3s ease; 
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
-                color: #4b5563; 
-                font-weight: 500; 
-                text-align: center; 
-                width: 100%; 
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+                color: #3a3a3c;
+                font-weight: 500;
+                text-align: center;
+                width: 100%;
             }
 
             html.dark .symptom-label {
-                background-color: #282828; 
-                border-color: #444; 
-                color: #e0e0e0; 
-                box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05); 
+                background-color: #1c1c1e;
+                border-color: #38383a;
+                color: #f5f5f7;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
             }
 
             .symptom-label:hover {
-                background-color: #f0f0f0; 
-                box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12); 
-                transform: translateY(-2px); 
+                background-color: #f5f5f7;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+                transform: translateY(-2px);
+                border-color: #d2d2d7;
             }
 
             html.dark .symptom-label:hover {
-                background-color: #333; 
-                box-shadow: 0 6px 14px rgba(255, 255, 255, 0.08); 
+                background-color: #2c2c2e;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+                border-color: #48484a;
             }
 
             .hidden-checkbox:checked + .symptom-label {
-                border-color: #3b82f6; 
-                background-color: #e3f2fd; 
-                box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4); 
-                color: #1565c0; 
-                font-weight: 600; 
+                border-color: #007AFF;
+                background-color: #E8F2FF;
+                box-shadow: 0 4px 16px rgba(0, 122, 255, 0.2);
+                color: #007AFF;
+                font-weight: 600;
             }
 
             html.dark .hidden-checkbox:checked + .symptom-label {
-                background-color: #1a2b4d; 
-                border-color: #60a5fa; 
-                box-shadow: 0 6px 16px rgba(96, 165, 250, 0.5); 
-                color: #93c5fd; 
+                background-color: #0a1a2e;
+                border-color: #0A84FF;
+                box-shadow: 0 4px 16px rgba(10, 132, 255, 0.25);
+                color: #0A84FF;
             }
 
-            html.dark .text-gray-800 { color: #e5e7eb; }
-            html.dark .text-gray-900 { color: #f9fafb; }
-            html.dark .bg-gray-100 { background-color: #1f2937; }
-            html.dark .bg-white { background-color: #1f2937; } 
-            html.dark .shadow-md { box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1); }
-            html.dark .text-gray-600 { color: #d1d5db; }
-            html.dark .text-gray-300 { color: #9ca3af; } 
-            html.dark .bg-gray-700 { background-color: #374151; }
-            html.dark .border-gray-300 { border-color: #4b5563; }
-            html.dark .hover\:text-blue-600:hover { color: #60a5fa; } 
-            html.dark .hover\:text-gray-800:hover { color: #f9fafb; } 
-            html.dark .hover\:text-blue-700:hover { color: #93c5fd; } 
+            html.dark .text-gray-800 { color: #e5e5ea; }
+            html.dark .text-gray-900 { color: #f5f5f7; }
+            html.dark .bg-gray-100 { background-color: #1c1c1e; }
+            html.dark .bg-white { background-color: #1c1c1e; }
+            html.dark .shadow-md { box-shadow: 0 2px 8px rgba(255, 255, 255, 0.06); }
+            html.dark .text-gray-600 { color: #98989d; }
+            html.dark .text-gray-300 { color: #8e8e93; }
+            html.dark .bg-gray-700 { background-color: #2c2c2e; }
+            html.dark .border-gray-300 { border-color: #38383a; }
+            html.dark .hover\:text-blue-600:hover { color: #0A84FF; }
+            html.dark .hover\:text-gray-800:hover { color: #f5f5f7; }
+            html.dark .hover\:text-blue-700:hover { color: #40a9ff; }
 
-            .bg-gray-100 { background-color: #f8f8f8; } 
-            .bg-white { background-color: #ffffff; } 
-            .text-gray-800 { color: #333; } 
-            .text-gray-900 { color: #1a1a1a; } 
-            .text-gray-600 { color: #555; } 
-            .shadow-md { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); } 
-            .rounded-md { border-radius: 0.75rem; } 
-            .rounded-lg { border-radius: 0.75rem; } 
+            .bg-gray-100 { background-color: #f5f5f7; }
+            .bg-white { background-color: #ffffff; }
+            .text-gray-800 { color: #1d1d1f; }
+            .text-gray-900 { color: #1d1d1f; }
+            .text-gray-600 { color: #6e6e73; }
+            .shadow-md { box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06); }
+            .rounded-md { border-radius: 12px; }
+            .rounded-lg { border-radius: 12px; }
 
             .section-divider {
                 border: none;
-                height: 2px; 
-                background: linear-gradient(to right, transparent, #d1d5db, transparent); 
-                margin: 4rem auto; 
-                width: 90%; 
-                max-width: 900px; 
-                transition: background-color 0.5s ease; 
+                height: 1px;
+                background: linear-gradient(to right, transparent, #d2d2d7, transparent);
+                margin: 5rem auto;
+                width: 85%;
+                max-width: 900px;
+                transition: background 0.5s ease;
             }
 
             html.dark .section-divider {
-                background: linear-gradient(to right, transparent, #4b5563, transparent); 
+                background: linear-gradient(to right, transparent, #38383a, transparent);
             }
 
             #three-d-container {
                 position: relative;
                 width: 100%;
-                height: 400px; 
+                height: 420px;
                 overflow: hidden;
-                display: flex; 
-                justify-content: center; 
-                align-items: center; 
-                background: radial-gradient(circle, #e0e0e0 0%, #f8f8f8 100%); 
-                transition: background 0.5s ease; 
-                border-radius: 0.75rem; 
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
-                text-align: center; 
-                padding: 1rem; 
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: radial-gradient(circle, #e5e5ea 0%, #f5f5f7 100%);
+                transition: background 0.5s ease;
+                border-radius: 16px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+                text-align: center;
+                padding: 1rem;
             }
 
             html.dark #three-d-container {
-                background: radial-gradient(circle, #1f2937 0%, #121212 100%); 
-                box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05); 
+                background: radial-gradient(circle, #1c1c1e 0%, #000000 100%);
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
             }
 
             #three-d-canvas {
@@ -256,14 +282,14 @@
 
             #visualization-placeholder {
                 font-size: 1.5rem;
-                color: #555; 
+                color: #6e6e73;
                 font-style: italic;
                 transition: color 0.5s ease;
-                position: absolute; 
-                pointer-events: none; 
+                position: absolute;
+                pointer-events: none;
             }
              html.dark #visualization-placeholder {
-                color: #d1d5db; 
+                color: #98989d;
             }
 
 
@@ -282,58 +308,70 @@
             }
 
             .reset-button {
-                background-color: #ef4444; 
+                background-color: #ff453a;
                 color: white;
-                font-weight: 600; 
-                padding-top: 0.75rem; 
-                padding-bottom: 0.75rem; 
-                padding-left: 2rem; 
-                padding-right: 2rem; 
-                border-radius: 9999px; 
-                transition: background-color 0.3s ease, transform 0.2s ease;
-                font-size: 1.125rem; 
+                font-weight: 600;
+                padding-top: 0.75rem;
+                padding-bottom: 0.75rem;
+                padding-left: 2rem;
+                padding-right: 2rem;
+                border-radius: 980px;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                font-size: 1.125rem;
+                border: none;
+                cursor: pointer;
             }
             .reset-button:hover {
-                background-color: #dc2626; 
-                transform: translateY(-1px); 
+                background-color: #d63a30;
+                transform: translateY(-1px) scale(1.02);
+            }
+            .reset-button:active {
+                transform: scale(0.97);
             }
             html.dark .reset-button {
-                 background-color: #f87171; 
+                background-color: #ff453a;
             }
             html.dark .reset-button:hover {
-                 background-color: #ef4444; 
+                background-color: #d63a30;
             }
 
             #scrollToTopBtn {
                 position: fixed;
                 bottom: 30px;
-                right: 30px; 
+                right: 30px;
                 z-index: 99;
-                display: none; 
+                display: none;
                 border: none;
                 outline: none;
-                background-color: #3b82f6; 
+                background-color: #007AFF;
                 color: white;
                 cursor: pointer;
-                padding: 12px 18px;
-                border-radius: 50%; 
-                font-size: 20px; 
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-                transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+                padding: 14px 18px;
+                border-radius: 50%;
+                font-size: 18px;
+                box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                backdrop-filter: blur(8px);
             }
             #scrollToTopBtn:hover {
-                background-color: #2563eb; 
+                background-color: #0062CC;
                 transform: scale(1.1);
+                box-shadow: 0 6px 24px rgba(0, 122, 255, 0.4);
+            }
+            #scrollToTopBtn:active {
+                transform: scale(0.9);
             }
             html.dark #scrollToTopBtn {
-                background-color: #60a5fa; 
+                background-color: #0A84FF;
+                box-shadow: 0 4px 16px rgba(10, 132, 255, 0.3);
             }
             html.dark #scrollToTopBtn:hover {
-                background-color: #3b82f6;
+                background-color: #007AFF;
+                box-shadow: 0 6px 24px rgba(10, 132, 255, 0.4);
             }
 
             .modal {
-                display: none; 
+                display: none;
                 position: fixed;
                 z-index: 1000;
                 left: 0;
@@ -341,138 +379,674 @@
                 width: 100%;
                 height: 100%;
                 overflow: auto;
-                background-color: rgba(0,0,0,0.6); 
-                backdrop-filter: blur(5px);
+                background-color: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
             }
             .modal-content {
-                background-color: #fefefe;
-                margin: 10% auto; 
-                padding: 25px 35px;
-                border: 1px solid #888;
+                background-color: #ffffff;
+                margin: 8% auto;
+                padding: 30px 36px;
+                border: none;
                 width: 90%;
-                max-width: 500px; 
-                border-radius: 12px;
-                box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                max-width: 460px;
+                border-radius: 18px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
                 position: relative;
-                animation: slideInFromTop 0.5s ease-out;
+                animation: modalFadeIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             }
             html.dark .modal-content {
-                background-color: #2c2c2c; 
-                border-color: #555;
+                background-color: #1c1c1e;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             }
             .close-btn {
-                color: #aaa;
+                color: #aeaeb2;
                 position: absolute;
-                top: 15px;
-                right: 25px; 
-                font-size: 32px;
-                font-weight: bold;
-                transition: color 0.3s ease;
-            }
-            .close-btn:hover,
-            .close-btn:focus {
-                color: #333;
-                text-decoration: none;
+                top: 16px;
+                right: 22px;
+                font-size: 28px;
+                font-weight: 400;
+                transition: all 0.2s ease;
+                line-height: 1;
+                background: none;
+                border: none;
                 cursor: pointer;
+                width: 32px;
+                height: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
             }
-            html.dark .close-btn:hover, html.dark .close-btn:focus { color: #ccc; }
+            .close-btn:hover {
+                color: #1d1d1f;
+                background: rgba(0, 0, 0, 0.05);
+            }
+            html.dark .close-btn:hover {
+                color: #f5f5f7;
+                background: rgba(255, 255, 255, 0.1);
+            }
 
-            @keyframes slideInFromTop {
-                from {transform: translateY(-50px); opacity: 0;}
-                to {transform: translateY(0); opacity: 1;}
+            @keyframes modalFadeIn {
+                from { transform: translateY(10px) scale(0.96); opacity: 0; }
+                to { transform: translateY(0) scale(1); opacity: 1; }
             }
             .modal-title {
                 font-family: 'Poppins', 'Changa', sans-serif;
-                font-size: 1.75rem; 
-                font-weight: 600;
-                margin-bottom: 1.5rem;
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin-bottom: 1.25rem;
                 text-align: center;
-                color: #333;
+                color: #1d1d1f;
+                letter-spacing: -0.02em;
             }
             html.dark .modal-title {
-                color: #e0e0e0;
+                color: #f5f5f7;
             }
             .modal-input {
                 width: 100%;
-                padding: 12px 15px;
-                margin-bottom: 1rem;
-                border: 1px solid #ccc;
-                border-radius: 8px;
+                padding: 14px 16px;
+                margin-bottom: 0.875rem;
+                border: 1.5px solid #d2d2d7;
+                border-radius: 10px;
                 box-sizing: border-box;
-                font-size: 1rem;
-                transition: border-color 0.3s ease;
+                font-size: 0.95rem;
+                transition: all 0.3s ease;
+                background: #f5f5f7;
+                color: #1d1d1f;
+                outline: none;
+                font-family: 'Inter', sans-serif;
             }
             html.dark .modal-input {
-                background-color: #3a3a3a;
-                border-color: #555;
-                color: #e0e0e0;
+                background-color: #2c2c2e;
+                border-color: #38383a;
+                color: #f5f5f7;
             }
             .modal-input:focus {
-                border-color: #3b82f6;
-                outline: none;
-                box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+                border-color: #007AFF;
+                background: #ffffff;
+                box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
+            }
+            html.dark .modal-input:focus {
+                background: #1c1c1e;
+                border-color: #0A84FF;
+                box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2);
+            }
+            .modal-input::placeholder {
+                color: #aeaeb2;
+            }
+            html.dark .modal-input::placeholder {
+                color: #636366;
             }
             .modal-button {
-                background-color: #3b82f6;
+                background-color: #007AFF;
                 color: white;
-                padding: 12px 20px;
+                padding: 14px 20px;
                 border: none;
-                border-radius: 8px;
+                border-radius: 980px;
                 cursor: pointer;
                 width: 100%;
-                font-size: 1.1rem;
-                font-weight: 500;
-                transition: background-color 0.3s ease, transform 0.2s ease;
+                font-size: 1rem;
+                font-weight: 600;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                font-family: 'Inter', sans-serif;
+                letter-spacing: 0.01em;
             }
             .modal-button:hover {
-                background-color: #2563eb;
+                background-color: #0062CC;
                 transform: translateY(-1px);
+                box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
+            }
+            .modal-button:active {
+                transform: scale(0.97);
             }
             html.dark .modal-button {
-                background-color: #60a5fa;
+                background-color: #0A84FF;
             }
             html.dark .modal-button:hover {
-                background-color: #3b82f6;
+                background-color: #007AFF;
+                box-shadow: 0 4px 16px rgba(10, 132, 255, 0.3);
             }
             .modal-footer-text {
                 text-align: center;
-                margin-top: 1.5rem;
-                font-size: 0.9rem;
-                color: #555;
+                margin-top: 1.25rem;
+                font-size: 0.875rem;
+                color: #6e6e73;
             }
             html.dark .modal-footer-text {
-                color: #bbb;
+                color: #98989d;
             }
             .modal-link {
-                color: #3b82f6;
-                font-weight: 500;
+                color: #007AFF;
+                font-weight: 600;
                 cursor: pointer;
                 text-decoration: none;
+                transition: color 0.2s ease;
             }
             .modal-link:hover {
                 text-decoration: underline;
+                color: #0062CC;
             }
             html.dark .modal-link {
-                color: #60a5fa;
+                color: #0A84FF;
+            }
+            html.dark .modal-link:hover {
+                color: #007AFF;
             }
             .modal-error-message, .modal-success-message {
                 font-size: 0.875rem;
                 margin-top: -0.5rem;
                 margin-bottom: 1rem;
                 text-align: center;
-                min-height: 1.25em; /* Reserve space to prevent layout shift */
+                min-height: 1.25em;
+                font-weight: 500;
             }
-            .modal-error-message { color: #ef4444; }
-            html.dark .modal-error-message { color: #f87171; }
-            .modal-success-message { color: #22c55e; } /* Green for success */
-            html.dark .modal-success-message { color: #4ade80; }
+            .modal-error-message { color: #ff453a; }
+            html.dark .modal-error-message { color: #ff453a; }
+            .modal-success-message { color: #30d158; }
+            html.dark .modal-success-message { color: #30d158; }
+
+            /* ===== Apple-style Form Fields ===== */
+            .apple-select,
+            .apple-input {
+                width: 100%;
+                padding: 12px 16px;
+                background: rgba(255, 255, 255, 0.8);
+                border: 1.5px solid #d2d2d7;
+                border-radius: 10px;
+                font-size: 0.95rem;
+                color: #1d1d1f;
+                transition: all 0.3s ease;
+                outline: none;
+                font-family: 'Inter', sans-serif;
+                -webkit-appearance: none;
+                appearance: none;
+            }
+            .apple-select {
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236e6e73' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 14px center;
+                padding-right: 40px;
+            }
+            html.dark .apple-select {
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2398989d' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            }
+            html.dark .apple-select,
+            html.dark .apple-input {
+                background: rgba(44, 44, 46, 0.8);
+                border-color: #38383a;
+                color: #f5f5f7;
+            }
+            .apple-select:focus,
+            .apple-input:focus {
+                border-color: #007AFF;
+                box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
+                background: #ffffff;
+            }
+            textarea.apple-input {
+                resize: vertical;
+                min-height: 100px;
+            }
+            html.dark .apple-select:focus,
+            html.dark .apple-input:focus {
+                border-color: #0A84FF;
+                box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2);
+                background: #2c2c2e;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            /* ===== Apple-style Buttons ===== */
+            a.apple-btn-primary {
+                text-decoration: none;
+                display: inline-flex;
+            }
+            .apple-btn-primary {
+                background: #007AFF;
+                color: white;
+                border: none;
+                border-radius: 980px;
+                padding: 12px 32px;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                font-family: 'Inter', sans-serif;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+            .apple-btn-primary:hover {
+                background: #0062CC;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
+            }
+            .apple-btn-primary:active {
+                transform: scale(0.97);
+            }
+            html.dark .apple-btn-primary {
+                background: #0A84FF;
+            }
+            html.dark .apple-btn-primary:hover {
+                background: #007AFF;
+                box-shadow: 0 4px 16px rgba(10, 132, 255, 0.3);
+            }
+
+            .apple-btn-secondary {
+                background: transparent;
+                color: #007AFF;
+                border: 1.5px solid #007AFF;
+                border-radius: 980px;
+                padding: 10px 24px;
+                font-size: 0.95rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                font-family: 'Inter', sans-serif;
+            }
+            .apple-btn-secondary:hover {
+                background: rgba(0, 122, 255, 0.08);
+                transform: translateY(-1px);
+            }
+            html.dark .apple-btn-secondary {
+                color: #0A84FF;
+                border-color: #0A84FF;
+            }
+            html.dark .apple-btn-secondary:hover {
+                background: rgba(10, 132, 255, 0.12);
+            }
+
+            .apple-btn-danger {
+                background: transparent;
+                color: #ff453a;
+                border: 1.5px solid #ff453a;
+                border-radius: 980px;
+                padding: 10px 24px;
+                font-size: 0.95rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                font-family: 'Inter', sans-serif;
+            }
+            .apple-btn-danger:hover {
+                background: rgba(255, 69, 58, 0.08);
+                transform: translateY(-1px);
+            }
+            html.dark .apple-btn-danger {
+                color: #ff453a;
+                border-color: #ff453a;
+            }
+            html.dark .apple-btn-danger:hover {
+                background: rgba(255, 69, 58, 0.15);
+            }
+
+            /* ===== Apple-style Card ===== */
+            .apple-card {
+                background: #ffffff;
+                border: 1px solid rgba(0, 0, 0, 0.06);
+                border-radius: 16px;
+                padding: 1.25rem;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            }
+            .apple-card:hover {
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+                transform: translateY(-2px);
+                border-color: rgba(0, 0, 0, 0.1);
+            }
+            html.dark .apple-card {
+                background: #1c1c1e;
+                border-color: rgba(255, 255, 255, 0.06);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            }
+            html.dark .apple-card:hover {
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
+            /* ===== Apple-style Table ===== */
+            .apple-table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            }
+            .apple-table thead th {
+                background: #f5f5f7;
+                color: #6e6e73;
+                font-weight: 600;
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                padding: 12px 16px;
+                text-align: left;
+                border-bottom: 1px solid #d2d2d7;
+            }
+            .apple-table tbody td {
+                padding: 12px 16px;
+                border-bottom: 1px solid #e5e5ea;
+                color: #1d1d1f;
+                font-size: 0.95rem;
+            }
+            .apple-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+            .apple-table tbody tr:hover {
+                background: #f5f5f7;
+            }
+            html.dark .apple-table thead th {
+                background: #2c2c2e;
+                color: #98989d;
+                border-bottom-color: #38383a;
+            }
+            html.dark .apple-table tbody td {
+                border-bottom-color: #38383a;
+                color: #f5f5f7;
+            }
+            html.dark .apple-table tbody tr:hover {
+                background: #2c2c2e;
+            }
+
+            /* ===== Apple-style Results Container ===== */
+            .apple-results {
+                background: #ffffff;
+                border-radius: 16px;
+                padding: 1.25rem;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+                border: 1px solid rgba(0, 0, 0, 0.06);
+            }
+            @media (min-width: 640px) {
+                .apple-results { padding: 1.5rem; }
+            }
+            @media (min-width: 768px) {
+                .apple-results { padding: 2rem; }
+            }
+            html.dark .apple-results {
+                background: #1c1c1e;
+                border-color: rgba(255, 255, 255, 0.06);
+            }
+
+            /* ===== Responsive Chart Heights ===== */
+            .chart-container {
+                height: 240px;
+            }
+            @media (min-width: 640px) {
+                .chart-container { height: 280px; }
+            }
+            @media (min-width: 768px) {
+                .chart-container { height: 320px; }
+            }
+
+            /* ===== Mobile-friendly Table ===== */
+            .apple-table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin-bottom: 1.5rem;
+                border-radius: 12px;
+            }
+            .apple-table-wrapper table {
+                min-width: 280px;
+            }
+            @media (max-width: 480px) {
+                .apple-table-wrapper table {
+                    min-width: 240px;
+                }
+                .apple-table thead th,
+                .apple-table tbody td {
+                    padding: 10px 12px;
+                    font-size: 0.85rem;
+                }
+                .apple-results h3 {
+                    font-size: 1.25rem;
+                }
+            }
+
+            /* ===== Nav link Apple style ===== */
+            .apple-nav-link {
+                color: #6e6e73;
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 0.9rem;
+                transition: color 0.2s ease;
+                position: relative;
+            }
+            .apple-nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: -4px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: #007AFF;
+                transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                border-radius: 1px;
+            }
+            .apple-nav-link:hover {
+                color: #007AFF;
+            }
+            .apple-nav-link:hover::after {
+                width: 100%;
+            }
+            html.dark .apple-nav-link {
+                color: #98989d;
+            }
+            html.dark .apple-nav-link:hover {
+                color: #0A84FF;
+            }
+            html.dark .apple-nav-link::after {
+                background: #0A84FF;
+            }
+
+            /* ===== Form card Apple style ===== */
+            .apple-form-card {
+                background: #ffffff;
+                border: 1px solid rgba(0, 0, 0, 0.06);
+                border-radius: 16px;
+                padding: 1.25rem;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            }
+            .apple-form-card:hover {
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+                border-color: rgba(0, 122, 255, 0.15);
+            }
+            html.dark .apple-form-card {
+                background: #1c1c1e;
+                border-color: rgba(255, 255, 255, 0.06);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            }
+            html.dark .apple-form-card:hover {
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+                border-color: rgba(10, 132, 255, 0.15);
+            }
+            @media (max-width: 480px) {
+                .apple-form-card { padding: 0.875rem; }
+                .apple-form-card label { font-size: 0.85rem; }
+                .apple-select, .apple-input {
+                    padding: 10px 12px;
+                    font-size: 0.9rem;
+                }
+                .apple-select { padding-right: 36px; }
+                .apple-symptom-form { padding: 1.25rem; }
+            }
+            .apple-form-card label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: #1d1d1f;
+            }
+            html.dark .apple-form-card label {
+                color: #f5f5f7;
+            }
+
+            /* ===== Symptom form container ===== */
+            .apple-symptom-form {
+                background: rgba(255, 255, 255, 0.6);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                border: 1px solid rgba(0, 0, 0, 0.06);
+                border-radius: 24px;
+                padding: 2rem;
+                box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            }
+            html.dark .apple-symptom-form {
+                background: rgba(28, 28, 30, 0.6);
+                border-color: rgba(255, 255, 255, 0.06);
+                box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+            }
+
+            /* ===== Mobile Nav Apple ===== */
+            .apple-mobile-menu {
+                background: rgba(245, 245, 247, 0.95);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                border-right: 1px solid rgba(0, 0, 0, 0.06);
+            }
+            html.dark .apple-mobile-menu {
+                background: rgba(0, 0, 0, 0.9);
+                border-right-color: rgba(255, 255, 255, 0.06);
+            }
+
+            /* ===== Professional Theme Toggle Button ===== */
+            .theme-toggle-btn {
+                position: relative;
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(255, 255, 255, 0.25);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1.5px solid rgba(255, 255, 255, 0.35);
+                box-shadow:
+                    0 4px 16px rgba(0, 0, 0, 0.08),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+                cursor: pointer;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                overflow: hidden;
+                flex-shrink: 0;
+            }
+            .theme-toggle-btn::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 70%);
+                opacity: 0;
+                transition: opacity 0.4s ease;
+                pointer-events: none;
+            }
+            .theme-toggle-btn::after {
+                content: '';
+                position: absolute;
+                inset: -4px;
+                border-radius: 50%;
+                background: conic-gradient(from 0deg, transparent, rgba(255, 159, 10, 0.3), transparent, rgba(10, 132, 255, 0.3), transparent);
+                opacity: 0;
+                transition: opacity 0.6s ease;
+                pointer-events: none;
+                z-index: -1;
+                animation: spinGlow 3s linear infinite;
+            }
+            .theme-toggle-btn:hover::before {
+                opacity: 1;
+            }
+            .theme-toggle-btn:hover::after {
+                opacity: 1;
+            }
+            .theme-toggle-btn:hover {
+                transform: scale(1.12) rotate(0deg);
+                box-shadow:
+                    0 8px 30px rgba(0, 0, 0, 0.12),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+                border-color: rgba(255, 255, 255, 0.5);
+            }
+            .theme-toggle-btn:active {
+                transform: scale(0.88);
+            }
+            .theme-toggle-btn:focus-visible {
+                outline: 2px solid #007AFF;
+                outline-offset: 3px;
+            }
+            html.dark .theme-toggle-btn {
+                background: rgba(0, 0, 0, 0.35);
+                border-color: rgba(255, 255, 255, 0.1);
+                box-shadow:
+                    0 4px 20px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            }
+            html.dark .theme-toggle-btn::before {
+                background: radial-gradient(circle at 70% 30%, rgba(10, 132, 255, 0.15), transparent 70%);
+            }
+            html.dark .theme-toggle-btn:hover {
+                border-color: rgba(255, 255, 255, 0.2);
+                box-shadow:
+                    0 8px 32px rgba(0, 0, 0, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            }
+            .theme-toggle-btn .icon-wrapper {
+                position: relative;
+                width: 22px;
+                height: 22px;
+            }
+            .theme-toggle-icon {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .sun-icon {
+                color: #fbbf24;
+                opacity: 0;
+                transform: rotate(-90deg) scale(0.4);
+            }
+            html.dark .sun-icon {
+                opacity: 1;
+                transform: rotate(0deg) scale(1);
+            }
+            .moon-icon {
+                color: #6b7280;
+                opacity: 1;
+                transform: rotate(0deg) scale(1);
+            }
+            html.dark .moon-icon {
+                opacity: 0;
+                transform: rotate(90deg) scale(0.4);
+            }
+            /* Ripple effect */
+            .theme-toggle-btn .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.4);
+                transform: scale(0);
+                animation: rippleAnim 0.6s ease-out forwards;
+                pointer-events: none;
+            }
+            html.dark .theme-toggle-btn .ripple {
+                background: rgba(255, 255, 255, 0.15);
+            }
+            @keyframes rippleAnim {
+                to { transform: scale(4); opacity: 0; }
+            }
+            @keyframes spinGlow {
+                to { transform: rotate(360deg); }
+            }
 
 
         </style>
         
     </head>
     <body class="bg-gray-100 text-gray-800">
-        <header class="bg-white shadow-md py-4 sticky top-0 z-50 rounded-md">
+        <header class="py-4 sticky top-0 z-50">
             <div class="container mx-auto flex justify-between items-center px-4">
                 <a
                     href="#"
@@ -481,73 +1055,67 @@
                     DiagnosisXAi 🩺
                 </a>
                 <nav class="hidden md:flex items-center space-x-6">
-                    <ul class="flex space-x-6">
+                    <ul class="flex space-x-8">
                         <li>
                             <a
                                 href="#home"
-                                class="hover:text-blue-600 transition duration-300"
+                                class="apple-nav-link"
                                 >Home</a
                             >
                         </li>
                         <li>
                             <a
                                 href="#about"
-                                class="hover:text-blue-600 transition duration-300"
+                                class="apple-nav-link"
                                 >About</a
                             >
                         </li>
                         <li>
                             <a
                                 href="#symptoms"
-                                class="hover:text-blue-600 transition duration-300"
+                                class="apple-nav-link"
                                 >Symptoms</a
                             >
                         </li>
                         <li>
                             <a
                                 href="#contact"
-                                class="hover:text-blue-600 transition duration-300"
+                                class="apple-nav-link"
                                 >Contact</a
                             >
                         </li>
                     </ul>
                     <div id="userAuthSectionDesktop" class="flex items-center">
                         <div id="authButtonsDesktop" class="flex items-center">
-                            <button id="loginBtnDesktop" class="ml-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">Login</button>
-                            <button id="signupBtnDesktop" class="ml-2 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">Sign Up</button>
+                            <button id="loginBtnDesktop" class="apple-btn-primary ml-4">Login</button>
+                            <button id="signupBtnDesktop" class="apple-btn-secondary ml-3">Sign Up</button>
                         </div>
                         <div id="userInfoDesktop" class="hidden items-center">
                             <span id="userNameDesktop" class="mr-3 text-gray-700 dark:text-gray-300 font-medium"></span>
-                            <button id="logoutBtnDesktop" class="ml-2 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">Logout</button>
+                            <button id="logoutBtnDesktop" class="apple-btn-danger ml-2">Logout</button>
                         </div>
                     </div>
                 </nav>
                 <div class="flex items-center">
                      <button
                         id="theme-toggle"
-                        class="bg-gray-200 rounded-full p-2 text-gray-700 hover:bg-gray-300 transition duration-300 ml-3 md:ml-0"
+                        class="theme-toggle-btn ml-3 md:ml-0"
                         aria-label="Toggle Theme"
                     >
-                        <svg
-                            id="theme-toggle-icon"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            class="h-6 w-6"
-                        >
-                            <path
-                                d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"
-                            ></path>
-                        </svg>
+                        <div class="icon-wrapper">
+                            <svg class="theme-toggle-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="5"/>
+                                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                            </svg>
+                            <svg class="theme-toggle-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                            </svg>
+                        </div>
                     </button>
                     <div class="md:hidden ml-3">
                         <button
                             id="hamburger-btn"
-                            class="text-gray-700 focus:outline-none"
+                            class="text-gray-700 dark:text-gray-300 focus:outline-none p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition"
                             aria-label="Toggle Navigation"
                         >
                             <svg
@@ -569,7 +1137,7 @@
                 </div>
                 <div
                     id="mobile-menu"
-                    class="hidden fixed top-0 left-0 h-full w-80 bg-gray-100 shadow-lg z-40 transform transition-transform duration-300 ease-in-out -translate-x-full"
+                    class="hidden fixed top-0 left-0 h-full w-80 apple-mobile-menu shadow-lg z-40 transform transition-transform duration-300 ease-in-out -translate-x-full"
                 > <div class="flex flex-col h-full">
                         <div class="px-4 py-6">
                             <div class="flex justify-start"> <button
@@ -608,40 +1176,40 @@
                                 <li>
                                     <a
                                         href="#home"
-                                        class="block px-4 py-2 text-gray-900 hover:bg-blue-100 rounded-md transition duration-300 mobile-nav-link"
+                                        class="block px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-lg transition duration-200 mobile-nav-link"
                                         >Home</a
                                     >
                                 </li>
                                 <li>
                                     <a
                                         href="#about"
-                                        class="block px-4 py-2 text-gray-900 hover:bg-blue-100 rounded-md transition duration-300 mobile-nav-link"
+                                        class="block px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-lg transition duration-200 mobile-nav-link"
                                         >About</a
                                     >
                                 </li>
                                 <li>
                                     <a
                                         href="#symptoms"
-                                        class="block px-4 py-2 text-gray-900 hover:bg-blue-100 rounded-md transition duration-300 mobile-nav-link"
+                                        class="block px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-lg transition duration-200 mobile-nav-link"
                                         >Symptoms</a
                                     >
                                 </li>
                                 <li>
                                     <a
                                         href="#contact"
-                                        class="block px-4 py-2 text-gray-900 hover:bg-blue-100 rounded-md transition duration-300 mobile-nav-link"
+                                        class="block px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-lg transition duration-200 mobile-nav-link"
                                         >Contact</a
                                     >
                                 </li>
                                 <li id="authButtonsMobileItem1" class="pt-4">
-                                     <button id="loginBtnMobile" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 mobile-nav-link">Login</button>
+                                     <button id="loginBtnMobile" class="apple-btn-primary w-full mobile-nav-link">Login</button>
                                 </li>
                                 <li id="authButtonsMobileItem2">
-                                     <button id="signupBtnMobile" class="w-full mt-2 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 mobile-nav-link">Sign Up</button>
+                                     <button id="signupBtnMobile" class="apple-btn-secondary w-full mt-2 mobile-nav-link">Sign Up</button>
                                 </li>
                                 <li id="userInfoMobileItem" class="hidden pt-4">
                                     <span id="userNameMobile" class="block px-4 py-2 text-gray-900 dark:text-gray-200 text-center font-medium"></span>
-                                    <button id="logoutBtnMobile" class="w-full mt-2 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 mobile-nav-link">Logout</button>
+                                    <button id="logoutBtnMobile" class="apple-btn-danger w-full mt-2 mobile-nav-link">Logout</button>
                                 </li>
                             </ul>
                         </nav>
@@ -662,7 +1230,7 @@
                 </p>
                 <a
                     href="#symptoms"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-full transition duration-300 text-lg"
+                    class="apple-btn-primary text-lg inline-block"
                     >Explore Symptoms</a
                 >
             </div>
@@ -713,31 +1281,24 @@
 action = "/predict"
   id="symptoms-form"
  method="POST"
-  class="max-w-7xl mx-auto bg-white dark:bg-gray-900 bg-opacity-70 dark:bg-opacity-60 backdrop-blur-lg rounded-3xl shadow-2xl p-8 md:p-12 transition-all duration-500"
+  class="max-w-7xl mx-auto apple-symptom-form transition-all duration-500"
 >
 
-<div class="bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 border border-gray-200 dark:border-gray-600 rounded-2xl p-5 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-  <label for="gender" class="block mb-2 text-base font-medium text-gray-700 dark:text-gray-200">
-    Gender
-  </label>
+<div class="apple-form-card">
+  <label for="gender">Gender</label>
   <select
     name="gender"
     id="gender"
-    class="w-full px-4 py-3 bg-white/90 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-400 dark:focus:ring-pink-400 transition-all duration-300"
+    class="apple-select"
   >
-    <option value="M" selected class="text-gray-400 dark:text-gray-300">Male</option>
+    <option value="M" selected>Male</option>
     <option value="F">Female</option>
   </select>
 </div>
-<br>
 
-
-
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    <div class="bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 border border-gray-200 dark:border-gray-600 rounded-2xl p-5 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-  <label for="age" class="block mb-2 text-base font-medium text-gray-700 dark:text-gray-200">
-    Age
-  </label>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+    <div class="apple-form-card">
+  <label for="age">Age</label>
   <input
     type="number"
     name="age"
@@ -745,7 +1306,7 @@ action = "/predict"
     min="1"
     max="109"
     placeholder="Enter your age"
-    class="w-full px-4 py-3 bg-white/90 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-400 dark:focus:ring-pink-400 transition-all duration-300"
+    class="apple-input"
     required
   />
 </div>
@@ -753,16 +1314,16 @@ action = "/predict"
     {% for default_value in default_values %}
       {% set value = values[loop.index0] %}
       {% if value|length != 0 %}
-        <div class="bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 border border-gray-200 dark:border-gray-600 rounded-2xl p-5 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-          <label for="symptom-select-{{ loop.index0 }}" class="block mb-2 text-base font-medium text-gray-700 dark:text-gray-200">
+        <div class="apple-form-card">
+          <label for="symptom-select-{{ loop.index0 }}">
             {{ df.iloc[loop.index0][1] }}
           </label>
           <select
             name="symptom{{ loop.index0 }}"
             id="symptom-select-{{ loop.index0 }}"
-            class="w-full px-4 py-3 bg-white/90 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-400 dark:focus:ring-pink-400 transition-all duration-300"
+            class="apple-select"
           >
-            <option value="{{ default_value }}" selected class="text-gray-400 dark:text-gray-300">
+            <option value="{{ default_value }}" selected>
               {{ default_value }}
             </option>
             {% for key, answer in value.items() %}
@@ -777,7 +1338,7 @@ action = "/predict"
   <div class="text-center mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
     <button
       type="submit"
-      class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 text-lg w-full sm:w-auto"
+      class="apple-btn-primary"
     >
       Get Prediction
     </button>
@@ -785,40 +1346,38 @@ action = "/predict"
   </div>
 </form>
 {% if predictions %}
-  <div id="results-section" class="bg-white rounded-lg shadow-md p-6 md:p-10 mt-8">
-    <h3 class="text-2xl font-semibold text-gray-900 mb-6 text-center heading-font">
+  <div id="results-section" class="apple-results mt-8">
+    <h3 class="text-2xl font-semibold text-gray-900 mb-4 sm:mb-6 text-center heading-font">
       Prediction Results
     </h3>
 
-    <div class="overflow-x-auto mb-8">
-      <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
+    <div class="apple-table-wrapper">
+      <table class="apple-table">
         <thead>
-          <tr class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-200">
-            <th class="py-3 px-4 text-left">Disease</th>
-            <th class="py-3 px-4 text-left">Probability</th>
+          <tr>
+            <th>Disease</th>
+            <th>Probability</th>
           </tr>
         </thead>
         <tbody>
           {% for row in predictions %}
-            <tr
-              class="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-            >
-              <td class="py-2 px-4">{{ row["Diseases Excepected"] }}</td>
-              <td class="py-2 px-4">{{ (row["Probability"] * 100) | round(2) }}%</td>
+            <tr>
+              <td>{{ row["Diseases Excepected"] }}</td>
+              <td class="font-semibold" style="color: #007AFF;">{{ (row["Probability"] * 100) | round(2) }}%</td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
       <div
         id="bar-chart"
-        class="bg-white rounded-xxlg p-4 shadow-md h-80"
+        class="chart-container apple-results p-3 sm:p-4"
       ></div>
       <div
         id="pie-chart"
-        class="bg-white rounded-xxlg p-4 shadow-md h-80"
+        class="chart-container apple-results p-3 sm:p-4"
       ></div>
     </div>
   </div>
@@ -852,25 +1411,25 @@ action = "/predict"
                 <h2 class="text-3xl md:text-4xl font-semibold text-gray-900 mb-8 text-center heading-font">
                     Contact Us
                 </h2>
-                <div class="max-w-2xl mx-auto bg-gray-100 p-8 rounded-lg shadow-md">
-                    <p class="text-gray-700 text-lg mb-6 text-center">
+                <div class="apple-results p-8 md:p-10">
+                    <p class="text-gray-600 dark:text-gray-300 text-lg mb-8 text-center">
                         Have questions or feedback? We'd love to hear from you.
                     </p>
-                    <form id="contact-form">
-                        <div class="mb-6">
-                            <label for="name" class="block text-gray-800 font-medium mb-2">Name</label>
-                            <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-300" required />
+                    <form id="contact-form" class="space-y-5">
+                        <div>
+                            <label for="name" class="block text-gray-800 dark:text-gray-200 font-medium mb-2 text-sm">Name</label>
+                            <input type="text" id="name" name="name" class="apple-input" placeholder="Your name" required />
                         </div>
-                        <div class="mb-6">
-                            <label for="email" class="block text-gray-800 font-medium mb-2">Email</label>
-                            <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-300" required />
+                        <div>
+                            <label for="email" class="block text-gray-800 dark:text-gray-200 font-medium mb-2 text-sm">Email</label>
+                            <input type="email" id="email" name="email" class="apple-input" placeholder="your@email.com" required />
                         </div>
-                        <div class="mb-6">
-                            <label for="message" class="block text-gray-800 font-medium mb-2">Message</label>
-                            <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-300" required></textarea>
+                        <div>
+                            <label for="message" class="block text-gray-800 dark:text-gray-200 font-medium mb-2 text-sm">Message</label>
+                            <textarea id="message" name="message" rows="5" class="apple-input" placeholder="Your message..." required></textarea>
                         </div>
-                        <div class="text-center">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-black font-semibold py-3 px-8 rounded-full transition duration-300 text-lg">
+                        <div class="text-center pt-2">
+                            <button type="submit" class="apple-btn-primary text-lg">
                                 Send Message
                             </button>
                         </div>
@@ -885,19 +1444,19 @@ action = "/predict"
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
                         <div class="name-box border-blue-500">
                             <h3 class="text-xl dev-font">Osama Hamada</h3>
-                            <p class="text-sm text-gray-500">AI Specialist</p>
+                            <p class="text-sm" style="color: #6e6e73;">AI Specialist</p>
                         </div>
                         <div class="name-box border-green-500">
                             <h3 class="text-xl dev-font">Mohamed Hosam</h3>
-                            <p class="text-sm text-gray-500">AI Specialist</p>
+                            <p class="text-sm" style="color: #6e6e73;">AI Specialist</p>
                         </div>
                         <div class="name-box border-yellow-500">
                             <h3 class="text-xl dev-font">Abdullah Atef</h3>
-                            <p class="text-sm text-gray-500">AI Specialist</p>
+                            <p class="text-sm" style="color: #6e6e73;">AI Specialist</p>
                         </div>
                         <div class="name-box border-red-500">
                             <h3 class="text-xl dev-font">Mohamed Shahin</h3>
-                            <p class="text-sm text-gray-500">AI Specialist</p>
+                            <p class="text-sm" style="color: #6e6e73;">AI Specialist</p>
                         </div>
                     </div>
                 </div>
@@ -960,39 +1519,77 @@ action = "/predict"
         <script>
             document.addEventListener('DOMContentLoaded', function() {
 
-                // --- Theme Toggle ---
+                // --- Professional Theme Toggle ---
                 const themeToggleBtn = document.getElementById('theme-toggle');
-                const themeToggleIcon = document.getElementById('theme-toggle-icon');
-                const sunIconPath = "M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12z";
-                const moonIconPath = "M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z";
 
-                function applyTheme(theme) {
-                    if (theme === 'dark') {
-                        document.documentElement.classList.add('dark');
-                        themeToggleIcon.innerHTML = `<path d="${sunIconPath}"></path>`;
-                    } else {
-                        document.documentElement.classList.remove('dark');
-                        themeToggleIcon.innerHTML = `<path d="${moonIconPath}"></path>`;
-                    }
-                    updateThreeDContainerBackground(theme);
+                function getPreferredTheme() {
+                    const stored = localStorage.getItem('theme');
+                    if (stored) return stored;
+                    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
                 }
-                
+
+                function applyTheme(theme, animate = false) {
+                    const isDark = theme === 'dark';
+                    document.documentElement.classList.toggle('dark', isDark);
+                    localStorage.setItem('theme', theme);
+                    updateThreeDContainerBackground(theme);
+                    updateChartTheme(theme);
+                }
+
                 function updateThreeDContainerBackground(theme) {
                     const threeDContainer = document.getElementById('three-d-container');
-                    if (threeDContainer) {
-                         if (document.getElementById('symptoms-form').querySelector('input[name="symptoms"]:checked')) { 
-                            // Background is handled by prediction logic if symptoms are checked
-                        } else {
-                             threeDContainer.style.background = theme === 'dark' ? 
-                                'radial-gradient(circle, #1f2937 0%, #121212 100%)' : 
-                                'radial-gradient(circle, #e0e0e0 0%, #f8f8f8 100%)';
-                        }
-                    }
+                    if (!threeDContainer) return;
+                    const form = document.getElementById('symptoms-form');
+                    if (form && form.querySelector('input[name="symptoms"]:checked')) return;
+                    threeDContainer.style.background = theme === 'dark'
+                        ? 'radial-gradient(circle, #1c1c1e 0%, #000000 100%)'
+                        : 'radial-gradient(circle, #e5e5ea 0%, #f5f5f7 100%)';
                 }
 
+                function updateChartTheme(theme) {
+                    const isDark = theme === 'dark';
+                    const textColor = isDark ? '#f5f5f7' : '#1d1d1f';
+                    const lineColor = isDark ? '#38383a' : '#d2d2d7';
+                    const layoutUpdate = {
+                        'font.color': textColor,
+                        'xaxis.tickfont.color': textColor,
+                        'yaxis.tickfont.color': textColor,
+                        'xaxis.linecolor': lineColor,
+                        'yaxis.linecolor': lineColor,
+                        'legend.font.color': textColor,
+                    };
+                    ['bar-chart', 'pie-chart'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el && el.data && el.layout) {
+                            Plotly.relayout(id, layoutUpdate);
+                        }
+                    });
+                }
 
-                const initialTheme = "dark";
+                // Ripple effect on button
+                function createRipple(e) {
+                    const btn = e.currentTarget;
+                    const ripple = document.createElement('span');
+                    ripple.className = 'ripple';
+                    const rect = btn.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                    ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                    btn.appendChild(ripple);
+                    ripple.addEventListener('animationend', () => ripple.remove());
+                }
+
+                // Init theme
+                const initialTheme = getPreferredTheme();
                 applyTheme(initialTheme);
+
+                // Toggle on click with ripple
+                themeToggleBtn.addEventListener('click', (e) => {
+                    createRipple(e);
+                    const current = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                    applyTheme(current === 'dark' ? 'light' : 'dark');
+                });
    
 
                 // --- Mobile Menu ---
